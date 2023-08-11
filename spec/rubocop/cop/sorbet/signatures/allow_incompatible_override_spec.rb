@@ -14,6 +14,14 @@ RSpec.describe(RuboCop::Cop::Sorbet::AllowIncompatibleOverride, :config) do
     RUBY
   end
 
+  it("disallows using override(allow_incompatible: true) with block syntax") do
+    expect_no_offenses(<<~RUBY)
+      class Foo
+        sig { override(allow_incompatible: true).void }
+      end
+    RUBY
+  end
+
   it("disallows using override(allow_incompatible: true) even when other keywords are present") do
     expect_offense(<<~RUBY)
       class Foo
